@@ -1,3 +1,5 @@
+help write a new readme.md file kelak -afiq
+
 # event_tracking_app
 
 A new Flutter project.
