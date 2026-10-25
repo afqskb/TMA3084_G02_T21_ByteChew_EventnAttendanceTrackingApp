@@ -1,13 +1,17 @@
-import 'package:event_tracking_app/screens/authenticate/sign_in.dart';
+//import 'package:event_tracking_app/screens/authenticate/sign_in.dart';
 import 'package:event_tracking_app/screens/wrapper.dart';
 import 'package:event_tracking_app/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:event_tracking_app/models/AppUser.dart';
+import 'package:event_tracking_app/models/app_user.dart';
+import 'package:logger/logger.dart';
 
 void main() async {
+
+  final logger = Logger();
+
   WidgetsFlutterBinding.ensureInitialized();
   try {
     // If you used 'flutterfire configure', use this:
@@ -18,9 +22,9 @@ void main() async {
     // Otherwise, try standard init:
     await Firebase.initializeApp();
     
-    print("Firebase initialized successfully!");
+    logger.d("Firebase initialized successfully!");
   } catch (e) {
-    print("Firebase initialization error: $e");
+    logger.d("Firebase initialization error: $e");
   }
 
 

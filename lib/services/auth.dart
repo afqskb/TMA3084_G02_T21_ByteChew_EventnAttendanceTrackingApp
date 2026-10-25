@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:event_tracking_app/models/AppUser.dart';
+import 'package:event_tracking_app/models/app_user.dart';
+import 'package:logger/logger.dart';
 
 class AuthService {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final logger = Logger();
+  String error = '';
 
   AppUser? _userFromFirebaseUser(User? user) {
     return user != null ? AppUser(uid: user.uid) : null;
@@ -26,7 +29,8 @@ class AuthService {
       return _userFromFirebaseUser(user);
 
     }catch(e) {
-      print('Sign-in failed: $e');
+      logger.d('Debug message');
+      logger.e('Error message: $error');
       return null;
 
     }
@@ -41,7 +45,8 @@ class AuthService {
       return _userFromFirebaseUser(user);
 
     }catch(e){
-      print (e.toString());
+      logger.d('Debug message');
+      logger.e('Error message: $error');
       return null;
     }
   }
@@ -55,7 +60,8 @@ class AuthService {
       return _userFromFirebaseUser(user);
 
     }catch(e){
-      print (e.toString());
+      logger.d('Debug message');
+      logger.e('Error message: $error');
       return null;
     }
   }
@@ -65,7 +71,8 @@ class AuthService {
     try{
       return await _auth.signOut();
     }catch(e){
-      print('Sign-out failed: $e');
+      logger.d('Debug message');
+      logger.e('Error message: $error');
       return null;
     }
   }
