@@ -3,6 +3,7 @@ import 'package:event_tracking_app/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:event_tracking_app/screens/settings/settings.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -16,9 +17,39 @@ class _HomeState extends State<Home> {
   final TextEditingController _searchController =
       TextEditingController();
 
-  // Temporary role for designing the interface.
-  // Replace this with the user's role loaded from Firestore.
-  final String _userRole = 'student';
+  String _userRole = 'guest';
+
+  Future<String> _getUserRole() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser == null) {
+      return 'guest';
+    }
+
+    final document = await FirebaseFirestore.instance
+        .collection('byteChew')
+        .doc(currentUser.uid)
+        .get();
+
+    if (!document.exists) {
+      return 'guest';
+    }
+
+    final data = document.data();
+    return data?['role'] as String? ?? 'guest';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserRole().then((role) {
+      if (mounted) {
+        setState(() {
+          _userRole = role;
+        });
+      }
+    });
+  }
 
   final List<String> _categories = [
     'All events',
@@ -180,8 +211,18 @@ class _HomeState extends State<Home> {
               _buildDrawerItem(
                 icon: Icons.settings_outlined,
                 title: 'Settings',
-                onTap: () => _showPlaceholder('Settings'),
+                onTap: () {
+                  Navigator.pop(context);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UserSettings(),
+                    ),
+                  );
+                },
               ),
+
               _buildDrawerItem(
                 icon: Icons.logout,
                 title: 'Sign Out',
