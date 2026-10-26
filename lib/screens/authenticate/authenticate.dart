@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:event_tracking_app/screens/authenticate/register.dart';
 
 class Authenticate extends StatefulWidget {
-  const new({super.key});
+  const Authenticate({super.key});
 
   @override
   State<Authenticate> createState() => _AuthenticateState();
