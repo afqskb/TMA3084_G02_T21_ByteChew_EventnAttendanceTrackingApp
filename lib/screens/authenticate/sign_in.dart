@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:event_tracking_app/services/auth.dart';
 
@@ -15,10 +14,8 @@ class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _emailController =
-      TextEditingController();
-  final TextEditingController _passwordController =
-      TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   bool _loading = false;
   bool _obscurePassword = true;
