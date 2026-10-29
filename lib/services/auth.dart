@@ -2,14 +2,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
+import 'package:msal_auth/msal_auth.dart';
 import 'package:event_tracking_app/services/database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
 
   // Convert Firebase User to your existing app user stream format.
-  // Keep this if your app already uses this mapping.
   dynamic _userFromFirebaseUser(User? user) {
     return user;
   }
@@ -140,94 +140,71 @@ class AuthService {
 
   // Sign in with Microsoft (UNIMAS students and staff).
   Future<User?> signInWithMicrosoft() async {
-    User? user;
 
-    try {
-      final provider = MicrosoftAuthProvider();
+     final provider = MicrosoftAuthProvider()
+    ..addScope('email')
+    ..addScope('openid')
+    ..addScope('profile')
+    ..setCustomParameters({
+      'prompt': 'select_account',
+      // 'tenant': '<unimas-tenant-id>',  // uncomment to restrict to UNIMAS
+    });
 
-      final result = kIsWeb
-          ? await _auth.signInWithPopup(provider)
-          : await _auth.signInWithProvider(provider);
+  final result = kIsWeb
+      ? await _auth.signInWithPopup(provider)
+      : await _auth.signInWithProvider(provider);
 
-      user = result.user;
-      if (user == null) return null;
+  final user = result.user;
+  if (user == null) throw Exception('No user returned.');
 
-      final role = _determineUserRole(user.email);
+  // Fall back to the email in providerData if user.email is null.
+  final email = user.email ??
+      user.providerData
+          .map((p) => p.email)
+          .firstWhere((e) => e != null && e.isNotEmpty, orElse: () => null);
+  debugPrint('MS email resolved: $email');
 
-      if (role == null) {
-        await _auth.signOut();
-        throw Exception('Please use an authorized UNIMAS account.');
-      }
-
-      await _ensureUserProfile(user);
-      return user;
-    } on FirebaseAuthException catch (e) {
-      debugPrint('Microsoft login error: ${e.code} - ${e.message}');
-      return null;
-    } catch (e) {
-      debugPrint('Microsoft login error: $e');
-      return null;
-    }
+  if (_determineUserRole(email) == null) {
+    await _auth.signOut();
+    throw Exception('Please use an authorized UNIMAS account.');
   }
+
+  await _ensureUserProfile(user);
+  return user;
+}
 
   // Sign in with Google (public users).
+  // i got this from https://www.geeksforgeeks.org/firebase/flutter-google-sign-in-ui-and-authentication/
   Future<User?> signInWithGoogle() async {
      try {
-    debugPrint('GOOGLE 1: Initializing sign-in');
-
-    final googleSignIn = GoogleSignIn.instance;
-    await googleSignIn.initialize();
-
-    debugPrint('GOOGLE 2: Selecting account');
-
-    final googleUser = await googleSignIn.authenticate();
-    final googleAuth = googleUser.authentication;
-
-    debugPrint('GOOGLE 3: Getting Firebase credential');
-
-    final credential = GoogleAuthProvider.credential(
-      idToken: googleAuth.idToken,
-    );
-
-    debugPrint('GOOGLE 4: Signing in to Firebase');
-
-    final result = await _auth.signInWithCredential(credential);
-    final user = result.user;
-
-    if (user == null) {
-      debugPrint('GOOGLE ERROR: Firebase returned no user');
-      return null;
+            
+            // Trigger the Google Sign-In flow.
+            final googleUser = await _googleSignIn.authenticate();
+            
+            // Retrieve the authentication details from the Google account.
+            final googleAuth = googleUser.authentication;
+            
+            // Create a new credential using the Google authentication details.
+            final credential = GoogleAuthProvider.credential(
+                    idToken: googleAuth.idToken,
+            );
+            
+            // Sign in to Firebase with the Google credential.
+            final userCredential = await _auth.signInWithCredential(credential);
+            
+            // Return the authenticated user.
+            return userCredential.user; 
+        } catch (e) {
+            
+            // Print the error and return null if an exception occurs.
+            print("Sign-in error: $e");
+            return null;
+        }
     }
-
-    debugPrint('GOOGLE 5: Checking user profile');
-
-    final role = _determineUserRole(user.email);
-
-    if (role != null) {
-      await _auth.signOut();
-      debugPrint('GOOGLE ERROR: University account must use Microsoft');
-      return null;
-    }
-
-    await _ensureUserProfile(user);
-
-    debugPrint('GOOGLE 6: Sign-in completed successfully');
-    return user;
-  } on FirebaseAuthException catch (e) {
-    debugPrint('GOOGLE FIREBASE ERROR: ${e.code} - ${e.message}');
-    return null;
-  } on FirebaseException catch (e) {
-    debugPrint('GOOGLE FIRESTORE ERROR: ${e.code} - ${e.message}');
-    return null;
-  } catch (e, stackTrace) {
-    debugPrint('GOOGLE OTHER ERROR: $e');
-    debugPrint('$stackTrace');
-    return null;
-  }
-}
 
   // Sign out.
   Future<void> signOut() async {
+    await _googleSignIn.signOut();
     await _auth.signOut();
   }
 

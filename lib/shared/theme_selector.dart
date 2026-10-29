@@ -11,7 +11,7 @@ class ThemeSelector extends StatelessWidget {
     final themeService = context.watch<ThemeService>();
 
     return DropdownButtonFormField<ThemeMode>(
-      value: themeService.themeMode,
+      initialValue: themeService.themeMode,
       decoration: const InputDecoration(
         labelText: 'Appearance',
         border: OutlineInputBorder(),

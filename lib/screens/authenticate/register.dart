@@ -80,9 +80,9 @@ class _RegisterState extends State<Register> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              colors.primary.withOpacity(0.12),
+              colors.primary.withValues(alpha: 0.12),
               theme.scaffoldBackgroundColor,
-              colors.secondary.withOpacity(0.08),
+              colors.secondary.withValues(alpha: 0.08),
             ],
           ),
         ),
