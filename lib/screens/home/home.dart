@@ -1,6 +1,5 @@
-
 import 'package:event_tracking_app/services/auth.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:event_tracking_app/screens/settings/settings.dart';
@@ -14,8 +13,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
-  final TextEditingController _searchController =
-      TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   String _userRole = 'guest';
 
@@ -61,8 +59,7 @@ class _HomeState extends State<Home> {
 
   String _selectedCategory = 'All events';
 
-  bool get _canManageEvents =>
-      _userRole == 'organizer' || _userRole == 'admin';
+  bool get _canManageEvents => _userRole == 'organizer' || _userRole == 'admin';
 
   bool get _isAdmin => _userRole == 'admin';
 
@@ -76,9 +73,7 @@ class _HomeState extends State<Home> {
     Navigator.pop(context);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('$feature will be implemented later.'),
-      ),
+      SnackBar(content: Text('$feature will be implemented later.')),
     );
   }
 
@@ -87,11 +82,7 @@ class _HomeState extends State<Home> {
     required String title,
     required VoidCallback onTap,
   }) {
-    return ListTile(
-      leading: Icon(icon),
-      title: Text(title),
-      onTap: onTap,
-    );
+    return ListTile(leading: Icon(icon), title: Text(title), onTap: onTap);
   }
 
   @override
@@ -106,9 +97,7 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                decoration: BoxDecoration(
-                  color: colors.primaryContainer,
-                ),
+                decoration: BoxDecoration(color: colors.primaryContainer),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -196,8 +185,7 @@ class _HomeState extends State<Home> {
                 _buildDrawerItem(
                   icon: Icons.fact_check_outlined,
                   title: 'Review Event Submissions',
-                  onTap: () =>
-                      _showPlaceholder('Review Event Submissions'),
+                  onTap: () => _showPlaceholder('Review Event Submissions'),
                 ),
                 _buildDrawerItem(
                   icon: Icons.admin_panel_settings_outlined,
@@ -264,9 +252,7 @@ class _HomeState extends State<Home> {
                           const SizedBox(height: 12),
                           Text(
                             'Notifications',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                           const SizedBox(height: 8),
                           const Text(
@@ -381,16 +367,11 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 12),
 
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 36,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
               decoration: BoxDecoration(
                 color: theme.cardColor,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: colors.outlineVariant,
-                ),
+                border: Border.all(color: colors.outlineVariant),
               ),
               child: Column(
                 children: [

@@ -1,5 +1,4 @@
-
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:event_tracking_app/services/auth.dart';
 
 class Register extends StatefulWidget {
@@ -80,9 +79,9 @@ class _RegisterState extends State<Register> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              colors.primary.withOpacity(0.12),
+              colors.primary.withValues(alpha: 0.12),
               theme.scaffoldBackgroundColor,
-              colors.secondary.withOpacity(0.08),
+              colors.secondary.withValues(alpha: 0.08),
             ],
           ),
         ),
@@ -174,9 +173,7 @@ class _RegisterState extends State<Register> {
                           TextFormField(
                             controller: _passwordController,
                             obscureText: _obscurePassword,
-                            autofillHints: const [
-                              AutofillHints.newPassword,
-                            ],
+                            autofillHints: const [AutofillHints.newPassword],
                             decoration: InputDecoration(
                               labelText: 'Password',
                               prefixIcon: const Icon(Icons.lock_outline),
@@ -214,8 +211,9 @@ class _RegisterState extends State<Register> {
                             obscureText: _obscureConfirmPassword,
                             decoration: InputDecoration(
                               labelText: 'Confirm password',
-                              prefixIcon:
-                                  const Icon(Icons.lock_person_outlined),
+                              prefixIcon: const Icon(
+                                Icons.lock_person_outlined,
+                              ),
                               border: const OutlineInputBorder(),
                               suffixIcon: IconButton(
                                 tooltip: _obscureConfirmPassword
@@ -287,9 +285,7 @@ class _RegisterState extends State<Register> {
                                 ),
                               ),
                               TextButton(
-                                onPressed: _loading
-                                    ? null
-                                    : widget.toggleView,
+                                onPressed: _loading ? null : widget.toggleView,
                                 child: const Text('Sign In'),
                               ),
                             ],

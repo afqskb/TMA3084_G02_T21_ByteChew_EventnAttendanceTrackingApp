@@ -1,5 +1,4 @@
-
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Loading extends StatelessWidget {
@@ -42,10 +41,7 @@ class Loading extends StatelessWidget {
             const SizedBox(height: 32),
 
             // Modern animated spinner
-            const SpinKitThreeBounce(
-              color: primaryBlue,
-              size: 24,
-            ),
+            const SpinKitThreeBounce(color: primaryBlue, size: 24),
 
             const SizedBox(height: 24),
 
@@ -63,10 +59,7 @@ class Loading extends StatelessWidget {
 
             Text(
               'Getting things ready...',
-              style: TextStyle(
-                color: Colors.blueGrey.shade400,
-                fontSize: 13,
-              ),
+              style: TextStyle(color: Colors.blueGrey.shade400, fontSize: 13),
             ),
           ],
         ),
