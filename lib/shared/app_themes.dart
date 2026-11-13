@@ -1,5 +1,4 @@
-
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class AppThemes {
   static final ThemeData light = ThemeData(
@@ -18,24 +17,18 @@ class AppThemes {
     cardTheme: CardThemeData(
       color: Colors.white,
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: const Color(0xFFF8FAFD),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-          color: Color(0xFFDCE4F0),
-        ),
+        borderSide: const BorderSide(color: Color(0xFFDCE4F0)),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-          color: Color(0xFFDCE4F0),
-        ),
+        borderSide: const BorderSide(color: Color(0xFFDCE4F0)),
       ),
     ),
   );
@@ -57,24 +50,18 @@ class AppThemes {
     cardTheme: CardThemeData(
       color: const Color(0xFF172235),
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: const Color(0xFF202E43),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-          color: Color(0xFF35445B),
-        ),
+        borderSide: const BorderSide(color: Color(0xFF35445B)),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-          color: Color(0xFF35445B),
-        ),
+        borderSide: const BorderSide(color: Color(0xFF35445B)),
       ),
     ),
   );

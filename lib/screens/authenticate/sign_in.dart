@@ -1,5 +1,4 @@
-
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:event_tracking_app/services/auth.dart';
 
 class SignIn extends StatefulWidget {
@@ -15,10 +14,8 @@ class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _emailController =
-      TextEditingController();
-  final TextEditingController _passwordController =
-      TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   bool _loading = false;
   bool _obscurePassword = true;
@@ -64,15 +61,11 @@ class _SignInState extends State<SignIn> {
   }
 
   Future<void> _signInWithGoogle() async {
-    await _runExternalSignIn(
-      () => _auth.signInWithGoogle(),
-    );
+    await _runExternalSignIn(() => _auth.signInWithGoogle());
   }
 
   Future<void> _signInWithMicrosoft() async {
-    await _runExternalSignIn(
-      () => _auth.signInWithMicrosoft(),
-    );
+    await _runExternalSignIn(() => _auth.signInWithMicrosoft());
   }
 
   Future<void> _runExternalSignIn(
@@ -191,9 +184,7 @@ class _SignInState extends State<SignIn> {
                           TextFormField(
                             controller: _passwordController,
                             obscureText: _obscurePassword,
-                            autofillHints: const [
-                              AutofillHints.password,
-                            ],
+                            autofillHints: const [AutofillHints.password],
                             decoration: InputDecoration(
                               labelText: 'Password',
                               prefixIcon: const Icon(Icons.lock_outline),
@@ -274,8 +265,7 @@ class _SignInState extends State<SignIn> {
                           const SizedBox(height: 18),
 
                           OutlinedButton.icon(
-                            onPressed:
-                                _loading ? null : _signInWithMicrosoft,
+                            onPressed: _loading ? null : _signInWithMicrosoft,
                             icon: const Icon(Icons.school_outlined),
                             label: const Text('Continue with Microsoft'),
                             style: OutlinedButton.styleFrom(
@@ -305,9 +295,7 @@ class _SignInState extends State<SignIn> {
                                 ),
                               ),
                               TextButton(
-                                onPressed: _loading
-                                    ? null
-                                    : widget.toggleView,
+                                onPressed: _loading ? null : widget.toggleView,
                                 child: const Text('Register'),
                               ),
                             ],

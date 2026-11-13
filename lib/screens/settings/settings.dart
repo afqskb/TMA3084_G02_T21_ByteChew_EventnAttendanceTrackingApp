@@ -1,7 +1,6 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 import 'package:event_tracking_app/services/theme_service.dart';
@@ -16,10 +15,7 @@ class UserSettings extends StatelessWidget {
     final themeService = context.watch<ThemeService>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Settings'), centerTitle: true),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
@@ -90,20 +86,14 @@ class UserSettings extends StatelessWidget {
                   icon: Icons.person_outline,
                   title: 'Personal Information',
                   subtitle: 'Manage your name and profile details',
-                  onTap: () => _showComingSoon(
-                    context,
-                    'Personal Information',
-                  ),
+                  onTap: () => _showComingSoon(context, 'Personal Information'),
                 ),
                 const Divider(height: 1),
                 _SettingsTile(
                   icon: Icons.email_outlined,
                   title: 'Email Address',
                   subtitle: 'Manage your sign-in email',
-                  onTap: () => _showComingSoon(
-                    context,
-                    'Email Address',
-                  ),
+                  onTap: () => _showComingSoon(context, 'Email Address'),
                 ),
 
                 // TODO: Add account linking and provider management
@@ -129,10 +119,7 @@ class UserSettings extends StatelessWidget {
                   icon: Icons.lock_outline,
                   title: 'Password & Sign-in',
                   subtitle: 'Manage password and authentication methods',
-                  onTap: () => _showComingSoon(
-                    context,
-                    'Password & Sign-in',
-                  ),
+                  onTap: () => _showComingSoon(context, 'Password & Sign-in'),
                 ),
                 const Divider(height: 1),
                 _SettingsTile(
@@ -165,10 +152,7 @@ class UserSettings extends StatelessWidget {
               icon: Icons.notifications_outlined,
               title: 'Notification Preferences',
               subtitle: 'Manage reminders and event updates',
-              onTap: () => _showComingSoon(
-                context,
-                'Notification Preferences',
-              ),
+              onTap: () => _showComingSoon(context, 'Notification Preferences'),
             ),
           ),
 
@@ -177,7 +161,6 @@ class UserSettings extends StatelessWidget {
           // - Event cancellations and schedule changes
           // - Event approval/rejection updates
           // - Push notification preferences
-
           const SizedBox(height: 24),
 
           Text(
@@ -204,7 +187,6 @@ class UserSettings extends StatelessWidget {
           // The backend must handle Firebase Authentication, the
           // user's Firestore profile, and related application data.
           // Require recent authentication where applicable.
-
           const SizedBox(height: 32),
 
           Center(
@@ -234,20 +216,13 @@ class UserSettings extends StatelessWidget {
     );
   }
 
-  static void _showComingSoon(
-    BuildContext context,
-    String feature,
-  ) {
+  static void _showComingSoon(BuildContext context, String feature) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('$feature will be implemented later.'),
-      ),
+      SnackBar(content: Text('$feature will be implemented later.')),
     );
   }
 
-  static Future<void> _showPermissions(
-    BuildContext context,
-  ) async {
+  static Future<void> _showPermissions(BuildContext context) async {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
@@ -286,23 +261,16 @@ class UserSettings extends StatelessWidget {
       if (!context.mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Unable to load account permissions.'),
-        ),
+        const SnackBar(content: Text('Unable to load account permissions.')),
       );
     }
   }
 
-  static Future<void> _confirmDeleteAccount(
-    BuildContext context,
-  ) async {
+  static Future<void> _confirmDeleteAccount(BuildContext context) async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        icon: const Icon(
-          Icons.warning_amber_rounded,
-          size: 40,
-        ),
+        icon: const Icon(Icons.warning_amber_rounded, size: 40),
         title: const Text('Delete Account?'),
         content: const Text(
           'Account deletion is not connected yet. '
@@ -329,11 +297,7 @@ class UserSettings extends StatelessWidget {
     // Intentionally does not delete anything yet.
     // Connect this action to a secure account-deletion workflow.
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Account deletion is not implemented yet.',
-        ),
-      ),
+      const SnackBar(content: Text('Account deletion is not implemented yet.')),
     );
   }
 }
@@ -359,10 +323,7 @@ class _SettingsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(icon, color: iconColor),
-      title: Text(
-        title,
-        style: TextStyle(color: titleColor),
-      ),
+      title: Text(title, style: TextStyle(color: titleColor)),
       subtitle: Text(subtitle),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,

@@ -1,5 +1,4 @@
-
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:event_tracking_app/services/theme_service.dart';
 
@@ -11,7 +10,7 @@ class ThemeSelector extends StatelessWidget {
     final themeService = context.watch<ThemeService>();
 
     return DropdownButtonFormField<ThemeMode>(
-      value: themeService.themeMode,
+      initialValue: themeService.themeMode,
       decoration: const InputDecoration(
         labelText: 'Appearance',
         border: OutlineInputBorder(),
@@ -21,14 +20,8 @@ class ThemeSelector extends StatelessWidget {
           value: ThemeMode.system,
           child: Text('System default'),
         ),
-        DropdownMenuItem(
-          value: ThemeMode.light,
-          child: Text('Light mode'),
-        ),
-        DropdownMenuItem(
-          value: ThemeMode.dark,
-          child: Text('Dark mode'),
-        ),
+        DropdownMenuItem(value: ThemeMode.light, child: Text('Light mode')),
+        DropdownMenuItem(value: ThemeMode.dark, child: Text('Dark mode')),
       ],
       onChanged: (mode) {
         if (mode != null) {
