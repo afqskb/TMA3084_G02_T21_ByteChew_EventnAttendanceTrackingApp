@@ -11,11 +11,10 @@ import 'package:flutter_test/flutter_test.dart';
 // import 'package:event_tracking_app/main.dart';
 
 void main() {
-//placeholder test
-     test('Placeholder test', () {
+  //placeholder test
+  test('Placeholder test', () {
     expect(true, isTrue);
   });
-
 
   // testWidgets('Counter increments smoke test', (WidgetTester tester) async {
   //   // Build our app and trigger a frame.
