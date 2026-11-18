@@ -1,8 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
-
+import 'package:event_tracking_app/screens/settings/personal_information/personal_information.dart';
+import 'package:event_tracking_app/screens/settings/manage_email/manage_email.dart';
+import 'package:event_tracking_app/screens/settings/link_account/link_account.dart';
+import 'package:event_tracking_app/screens/settings/manage_credential/manage_credential.dart';
+import 'package:event_tracking_app/screens/settings/view_permission/view_permission.dart';
+import 'package:event_tracking_app/screens/settings/notification_preference/notification_preference.dart';
 import 'package:event_tracking_app/services/theme_service.dart';
 
 class UserSettings extends StatelessWidget {
@@ -86,16 +91,47 @@ class UserSettings extends StatelessWidget {
                   icon: Icons.person_outline,
                   title: 'Personal Information',
                   subtitle: 'Manage your name and profile details',
-                  onTap: () => _showComingSoon(context, 'Personal Information'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PersonalInformation(),
+                      ),
+                    );
+                  },
                 ),
+
                 const Divider(height: 1),
+
                 _SettingsTile(
                   icon: Icons.email_outlined,
                   title: 'Email Address',
                   subtitle: 'Manage your sign-in email',
-                  onTap: () => _showComingSoon(context, 'Email Address'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ManageEmail(),
+                      ),
+                    );
+                  },
                 ),
 
+                const Divider(height: 1),
+
+                _SettingsTile(
+                  icon: Icons.link_outlined,
+                  title: 'Linked Accounts',
+                  subtitle: 'Manage connected sign-in providers',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LinkAccount(),
+                      ),
+                    );
+                  },
+                ),
                 // TODO: Add account linking and provider management
                 // for Microsoft, Google, and email/password accounts.
               ],
@@ -119,14 +155,30 @@ class UserSettings extends StatelessWidget {
                   icon: Icons.lock_outline,
                   title: 'Password & Sign-in',
                   subtitle: 'Manage password and authentication methods',
-                  onTap: () => _showComingSoon(context, 'Password & Sign-in'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ManageCredential(),
+                      ),
+                    );
+                  },
                 ),
+
                 const Divider(height: 1),
+
                 _SettingsTile(
                   icon: Icons.admin_panel_settings_outlined,
                   title: 'Permissions',
                   subtitle: 'View your account access and role',
-                  onTap: () => _showPermissions(context),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ViewPermission(),
+                      ),
+                    );
+                  },
                 ),
 
                 // IMPORTANT:
@@ -152,7 +204,14 @@ class UserSettings extends StatelessWidget {
               icon: Icons.notifications_outlined,
               title: 'Notification Preferences',
               subtitle: 'Manage reminders and event updates',
-              onTap: () => _showComingSoon(context, 'Notification Preferences'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NotificationPreference(),
+                  ),
+                );
+              },
             ),
           ),
 
@@ -214,56 +273,6 @@ class UserSettings extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  static void _showComingSoon(BuildContext context, String feature) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$feature will be implemented later.')),
-    );
-  }
-
-  static Future<void> _showPermissions(BuildContext context) async {
-    final user = FirebaseAuth.instance.currentUser;
-
-    if (user == null) {
-      _showComingSoon(context, 'Account permissions');
-      return;
-    }
-
-    try {
-      final document = await FirebaseFirestore.instance
-          .collection('byteChew')
-          .doc(user.uid)
-          .get();
-
-      if (!context.mounted) return;
-
-      final role = document.data()?['role'] as String? ?? 'unassigned';
-
-      showDialog<void>(
-        context: context,
-        builder: (dialogContext) => AlertDialog(
-          title: const Text('Your Permissions'),
-          content: Text(
-            'Current role: $role\n\n'
-            'Your available features depend on the permissions '
-            'assigned to your account.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('Close'),
-            ),
-          ],
-        ),
-      );
-    } catch (_) {
-      if (!context.mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Unable to load account permissions.')),
-      );
-    }
   }
 
   static Future<void> _confirmDeleteAccount(BuildContext context) async {

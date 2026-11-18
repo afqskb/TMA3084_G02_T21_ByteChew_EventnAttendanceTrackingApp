@@ -3,6 +3,9 @@ import 'package:material_ui/material_ui.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:event_tracking_app/screens/settings/settings.dart';
+import 'package:event_tracking_app/screens/profile/profile.dart';
+import 'package:event_tracking_app/screens/event_joined/event_joined.dart';
+import 'package:event_tracking_app/screens/event_saved/event_saved.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -134,17 +137,40 @@ class _HomeState extends State<Home> {
               _buildDrawerItem(
                 icon: Icons.person_outline,
                 title: 'My Profile',
-                onTap: () => _showPlaceholder('My Profile'),
+                onTap: () {
+                  Navigator.pop(context);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Profile()),
+                  );
+                },
               ),
               _buildDrawerItem(
                 icon: Icons.event_available_outlined,
                 title: 'Joined Events',
-                onTap: () => _showPlaceholder('Joined Events'),
+                onTap: () {
+                  Navigator.pop(context);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EventJoined(),
+                    ),
+                  );
+                },
               ),
               _buildDrawerItem(
                 icon: Icons.bookmark_border,
                 title: 'Saved Events',
-                onTap: () => _showPlaceholder('Saved Events'),
+                onTap: () {
+                  Navigator.pop(context);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const EventSaved()),
+                  );
+                },
               ),
 
               const Divider(),
