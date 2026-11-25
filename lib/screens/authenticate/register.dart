@@ -165,6 +165,10 @@ class _RegisterState extends State<Register> {
                               if (!value.contains('@')) {
                                 return 'Please enter a valid email address.';
                               }
+
+                              if (value.endsWith('@siswa.unimas.my') || value.endsWith('@unimas.my')) {
+                                return 'Please login via microsoft.';
+                              }
                               return null;
                             },
                           ),

@@ -46,4 +46,9 @@ class DatabaseService {
       }
     });
   }
+
+  Future<void> deleteUserData() async {
+    await byteChewCollection.doc(uid).delete();
+  }
+
 }
