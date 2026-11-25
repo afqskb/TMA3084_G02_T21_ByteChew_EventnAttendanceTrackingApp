@@ -79,6 +79,9 @@ class AccountDeletionHelper {
     BuildContext context,
     Future<void> Function() task,
   ) async {
+
+    final navigator = Navigator.of(context, rootNavigator: true);
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -88,8 +91,8 @@ class AccountDeletionHelper {
     try {
       await task();
     } finally {
-      if (context.mounted) {
-        Navigator.of(context, rootNavigator: true).pop();
+      if (navigator.mounted) {
+        navigator.pop();
       }
     }
   }
@@ -116,7 +119,7 @@ class AccountDeletionHelper {
 
     if (providerId == 'password' && user.email != null) {
       final password = await _showPasswordPrompt(context);
-      if (password == null || password.isEmpty) return false;
+      if (password == null || password.isEmpty || !context.mounted) return false;
 
       final cred = EmailAuthProvider.credential(
         email: user.email!,
