@@ -216,6 +216,33 @@ class AuthService {
     }
   }
 
+  // Delete the currently signed-in user's Firestore profile and Auth account.
+  Future<void> deleteAccount() async {
+    try {
+      final currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        throw Exception('No signed-in user to delete.');
+      }
+
+      final uid = currentUser.uid;
+
+      // Delete Firestore document first while still authenticated.
+      await DatabaseService(uid: uid).deleteUserData();
+
+      // Then delete the Firebase Auth account.
+      await currentUser.delete();
+    } on FirebaseAuthException catch (e) {
+      debugPrint('Delete account auth error: ${e.code} - ${e.message}');
+      rethrow;
+    } on FirebaseException catch (e) {
+      debugPrint('Delete account firestore error: ${e.code} - ${e.message}');
+      rethrow;
+    } catch (e) {
+      debugPrint('Delete account error: $e');
+      rethrow;
+    }
+  }
+
   // Sign out.
   Future<void> signOut() async {
     await _auth.signOut();

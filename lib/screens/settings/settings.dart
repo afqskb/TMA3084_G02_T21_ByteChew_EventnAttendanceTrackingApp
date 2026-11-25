@@ -1,7 +1,8 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
+import 'package:event_tracking_app/screens/settings/account_delete/account_delete.dart';
 import 'package:event_tracking_app/screens/settings/personal_information/personal_information.dart';
 import 'package:event_tracking_app/screens/settings/manage_email/manage_email.dart';
 import 'package:event_tracking_app/screens/settings/link_account/link_account.dart';
@@ -238,7 +239,7 @@ class UserSettings extends StatelessWidget {
               subtitle: 'Permanently delete your account',
               iconColor: colors.error,
               titleColor: colors.error,
-              onTap: () => _confirmDeleteAccount(context),
+               onTap: () => AccountDeletionHelper.confirmDeleteAccount(context),
             ),
           ),
 
@@ -275,41 +276,7 @@ class UserSettings extends StatelessWidget {
     );
   }
 
-  static Future<void> _confirmDeleteAccount(BuildContext context) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        icon: const Icon(Icons.warning_amber_rounded, size: 40),
-        title: const Text('Delete Account?'),
-        content: const Text(
-          'Account deletion is not connected yet. '
-          'When implemented, this action will permanently remove '
-          'your account and may remove associated data. '
-          'You may need to sign in again to verify your identity.\n\n'
-          'Do you want to continue to the account deletion setup?',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(dialogContext, true),
-            child: const Text('Continue'),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed != true || !context.mounted) return;
-
-    // Intentionally does not delete anything yet.
-    // Connect this action to a secure account-deletion workflow.
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Account deletion is not implemented yet.')),
-    );
   }
-}
 
 class _SettingsTile extends StatelessWidget {
   final IconData icon;
